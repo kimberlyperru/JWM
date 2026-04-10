@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Environment Variables (Keep .env secret!)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# DO NOT ignore .env.example (it's a template for others)
+# !.env.example 
+
+# Debugging and Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Build Directories
+dist/
+build/
+frontend/build/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Database / Local Data
+backend/data/*.json
+*.sqlite

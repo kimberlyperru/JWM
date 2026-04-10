@@ -1,0 +1,166 @@
+.appt-page { padding-top: var(--nav-height); }
+
+.appt-container {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* Steps indicator */
+.steps {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 40px;
+  position: relative;
+  gap: 8px;
+}
+.steps::before {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 0; right: 0;
+  height: 2px;
+  background: var(--border);
+  z-index: 0;
+}
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+.step-num {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--border);
+  color: var(--text-mid);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+}
+.step-item.active .step-num { background: var(--primary); color: white; }
+.step-item.done .step-num   { background: var(--success); color: white; }
+.step-item span {
+  font-size: 0.72rem;
+  color: var(--text-light);
+  font-weight: 600;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+}
+.step-item.active span { color: var(--primary); }
+.step-item.done span   { color: var(--success); }
+
+.step-content {
+  background: white;
+  border-radius: var(--radius);
+  padding: 32px;
+  box-shadow: var(--shadow);
+}
+
+.step-heading {
+  color: var(--primary);
+  margin-bottom: 24px;
+  font-size: 1.1rem;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.back-btn:hover { color: var(--primary-light); }
+
+/* Date selection */
+.date-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+.date-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 14px 16px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+.date-btn:hover { border-color: var(--primary); background: var(--light-bg); }
+.date-btn.selected { border-color: var(--primary); background: var(--primary); color: white; }
+.date-day { font-size: 0.72rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; }
+.date-btn.selected .date-day { color: rgba(255,255,255,0.8); }
+.date-full { font-size: 0.88rem; font-weight: 600; margin-top: 4px; }
+
+/* Slots */
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
+.slot-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 10px;
+  border-radius: 8px;
+  border: 2px solid var(--border);
+  background: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  gap: 6px;
+  transition: all 0.2s;
+}
+.slot-btn.available:hover { border-color: var(--primary); background: var(--light-bg); }
+.slot-btn.available { border-color: #c3e6cb; background: #f0fff4; color: #155724; }
+.slot-btn.selected  { border-color: var(--primary); background: var(--primary); color: white; }
+.slot-btn.taken     { background: #f8f9fa; color: #aaa; cursor: not-allowed; border-color: #eee; }
+.slot-btn.taken i   { color: var(--danger); }
+.slot-btn small     { font-size: 0.7rem; font-weight: 400; opacity: 0.7; }
+
+/* Appointment summary */
+.appt-summary {
+  background: var(--light-bg);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+.appt-summary p { font-size: 0.95rem; margin-bottom: 6px; color: var(--text-mid); }
+.appt-summary p:last-child { margin-bottom: 0; }
+.appt-summary i { color: var(--primary); margin-right: 8px; width: 16px; }
+
+/* Confirmed */
+.confirmed {
+  text-align: center;
+}
+.confirmed-icon {
+  font-size: 4rem;
+  color: var(--success);
+  margin-bottom: 16px;
+}
+.confirmed h2 { color: var(--primary); margin-bottom: 12px; }
+.confirmed p  { color: var(--text-mid); margin-bottom: 20px; }
+.confirmed .appt-summary { margin: 20px auto 28px; max-width: 300px; text-align: left; }
+
+.loading-text { margin-top: 16px; color: var(--text-mid); font-size: 0.95rem; }
+
+@media (max-width: 600px) {
+  .step-item span { display: none; }
+  .step-content { padding: 20px 16px; }
+}

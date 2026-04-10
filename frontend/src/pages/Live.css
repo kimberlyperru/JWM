@@ -1,0 +1,80 @@
+.live-page { padding-top: var(--nav-height); }
+.live-dot { color: #ff4444; font-size: 0.7em; margin-right: 8px; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+.live-container { max-width: 900px; margin: 0 auto; }
+
+.live-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-bottom: 28px;
+  font-size: 0.93rem;
+  color: #664d03;
+}
+.live-notice i { color: #ffc107; margin-top: 2px; flex-shrink: 0; }
+
+.live-video-wrap {
+  background: #000;
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 16/9;
+  box-shadow: var(--shadow);
+  margin-bottom: 36px;
+}
+.live-video-wrap iframe { width: 100%; height: 100%; display: block; }
+
+.live-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 300px;
+  gap: 16px;
+  color: white;
+  background: #111;
+}
+
+.live-links { margin-bottom: 36px; }
+.live-links h3 { color: var(--primary); margin-bottom: 18px; font-size: 1.1rem; }
+.platform-buttons { display: flex; gap: 14px; flex-wrap: wrap; }
+.platform-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.platform-btn:hover { opacity: 0.88; transform: translateY(-2px); color: white; }
+.platform-btn.facebook { background: #1877f2; }
+.platform-btn.youtube  { background: #ff0000; }
+.platform-btn.whatsapp { background: #25d366; }
+.platform-btn i { font-size: 1.1rem; }
+
+.live-schedule { }
+.live-schedule h3 { color: var(--primary); margin-bottom: 18px; font-size: 1.1rem; }
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+}
+.schedule-card {
+  background: var(--light-bg);
+  border-radius: 8px;
+  padding: 18px;
+  text-align: center;
+  border-left: 4px solid var(--accent);
+}
+.schedule-day { font-family: 'Montserrat', sans-serif; font-weight: 700; color: var(--primary); margin-bottom: 4px; }
+.schedule-time { font-size: 0.95rem; color: var(--accent); font-weight: 600; margin-bottom: 4px; }
+.schedule-label { font-size: 0.82rem; color: var(--text-mid); }

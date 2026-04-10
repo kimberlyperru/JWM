@@ -1,0 +1,233 @@
+/* ---- HERO ---- */
+.hero {
+  min-height: 100vh;
+  /* background: url('../images/jwm-7.jpg') center/cover no-repeat; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  text-align: center;
+  padding: 0 20px;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(26,60,110,0.75) 0%, rgba(10,25,50,0.85) 100%);
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+  color: white;
+  max-width: 800px;
+}
+.hero-content h1 {
+  font-size: clamp(2rem, 6vw, 4rem);
+  margin-bottom: 12px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+.hero-sub {
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  color: var(--accent);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.hero-desc {
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  opacity: 0.85;
+  margin-bottom: 32px;
+}
+.hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.btn-outline-white {
+  display: inline-block;
+  padding: 12px 28px;
+  border: 2px solid white;
+  color: white;
+  border-radius: 6px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  transition: all 0.25s;
+}
+.btn-outline-white:hover { background: white; color: var(--primary); }
+
+/* ---- ABOUT ---- */
+.about-container { max-width: 800px; margin: 0 auto; text-align: center; }
+.about-text { font-size: 1.05rem; color: var(--text-mid); line-height: 1.8; margin-bottom: 24px; }
+.about-highlight {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 1.15rem;
+  margin-bottom: 28px;
+}
+.about-cta { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+/* ---- LEADERSHIP ---- */
+/* Container to stack items vertically */
+.leadership-section { 
+  background: var(--light-bg); 
+  display: flex;
+  flex-direction: column;
+  gap: 30px; /* Space between the rows */
+  padding: 40px 20px;
+}
+
+.leader-card {
+  /* Changed from 380px to a larger size or 100% to fill the row */
+  width: 100%;
+  max-width: 900px; 
+  margin: 0 auto;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  text-align: center;
+  
+  /* Optional: If you want the image on the left and text on the right */
+  display: flex;
+  flex-direction: row; 
+  align-items: center;
+}
+
+.leader-card img { 
+  /* Adjust width for row layout so it doesn't take the whole screen height */
+  width: 300px; 
+  height: 300px; 
+  object-fit: cover; 
+  object-position: top; 
+}
+
+.leader-info { 
+  padding: 24px; 
+  flex: 1; /* Makes text take up remaining space */
+  text-align: left; /* Better alignment for row layout */
+}
+
+.leader-info h3 { color: var(--primary); font-size: 1.3rem; }
+.leader-info p { color: var(--text-mid); margin-top: 4px; }
+
+/* Responsive: Stack image on top of text for mobile devices */
+@media (max-width: 768px) {
+  .leader-card {
+    flex-direction: column;
+    text-align: center;
+  }
+  .leader-card img {
+    width: 100%;
+    height: 320px;
+  }
+  .leader-info {
+    text-align: center;
+  }
+}
+
+/* ---- SERVICES ---- */
+.services-section { background: white; }
+.card-time { color: var(--primary); font-size: 0.85rem; margin-bottom: 6px; }
+.card-time i { margin-right: 5px; }
+
+/* ---- GALLERY ---- */
+.gallery-section { background: var(--light-bg); }
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  cursor: pointer;
+  aspect-ratio: 1;
+}
+.gallery-item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+.gallery-item:hover img { transform: scale(1.06); }
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(26,60,110,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+  color: white;
+  font-size: 1.4rem;
+}
+.gallery-item:hover .gallery-overlay { opacity: 1; }
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.lightbox img { max-width: 90vw; max-height: 90vh; border-radius: 6px; box-shadow: 0 0 40px rgba(0,0,0,0.5); }
+.lightbox-close {
+  position: absolute;
+  top: 20px; right: 24px;
+  background: none; border: none;
+  color: white; font-size: 1.8rem;
+  cursor: pointer; opacity: 0.8;
+}
+.lightbox-close:hover { opacity: 1; }
+
+/* ---- CALENDAR ---- */
+.calendar-wrap {
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ---- PRAYER ---- */
+.prayer-section { background: var(--light-bg); }
+
+/* ---- MAP ---- */
+.map-wrap { max-width: 900px; margin: 0 auto; box-shadow: var(--shadow); border-radius: var(--radius); overflow: hidden; }
+
+/* ---- GIVING ---- */
+.giving-section { background: var(--primary); color: white; }
+.giving-section .section-title h2 { color: white; }
+.giving-section .section-title h2::after { background: var(--accent); }
+.giving-section .section-title p { color: rgba(255,255,255,0.75); }
+.giving-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.giving-card {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius);
+  padding: 32px 24px;
+  text-align: center;
+  color: white;
+}
+.giving-card-cta { background: rgba(200,169,81,0.2); border-color: var(--accent); }
+.giving-card h3 { margin: 14px 0 10px; font-size: 1.15rem; }
+.giving-card p { opacity: 0.85; font-size: 0.93rem; }
+.giving-icon { font-size: 2.4rem; color: var(--accent); }
+.giving-icon-white { font-size: 2.4rem; color: white; }
+.paybill-info { margin-top: 12px; }
+.paybill-info p { font-size: 1.1rem; margin-bottom: 4px; }
+.paybill-info strong { color: var(--accent); }

@@ -1,0 +1,75 @@
+.pledge-page { padding-top: var(--nav-height); }
+
+.pledge-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(135deg, #fdf6e3, #fef9ec);
+  border-left: 4px solid var(--accent);
+  border-radius: 8px;
+  padding: 16px 18px;
+  margin-bottom: 24px;
+}
+.pledge-banner i { font-size: 1.6rem; color: var(--accent); flex-shrink: 0; }
+.pledge-banner p { font-style: italic; color: var(--text-mid); font-size: 0.9rem; line-height: 1.6; }
+
+.amount-input-wrap { position: relative; }
+.currency-label {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* Done */
+.pledge-done {
+  max-width: 540px;
+  margin: 0 auto;
+  text-align: center;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 40px 32px;
+}
+.pledge-done .done-icon { font-size: 4rem; color: var(--success); margin-bottom: 16px; }
+.pledge-done h2 { color: var(--primary); margin-bottom: 12px; }
+
+.pledge-receipt {
+  background: var(--light-bg);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 20px 0;
+  text-align: left;
+}
+.pledge-receipt h4 {
+  color: var(--primary);
+  margin-bottom: 14px;
+  font-size: 0.95rem;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+.receipt-row:last-child { border-bottom: none; }
+.receipt-row span { color: var(--text-mid); }
+.receipt-row strong { color: var(--text-dark); }
+
+.scripture-verse {
+  font-style: italic;
+  color: var(--text-mid);
+  font-size: 0.88rem;
+  line-height: 1.7;
+  margin-bottom: 24px;
+  padding: 16px;
+  background: #f9f9f9;
+  border-radius: 8px;
+}

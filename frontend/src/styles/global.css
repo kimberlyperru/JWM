@@ -1,0 +1,299 @@
+/* ============================================================
+   JWM KAJIADO CHURCH - GLOBAL STYLES
+   Original colors preserved from the GitHub repo
+   Fully responsive for mobile, tablet, desktop
+   ============================================================ */
+
+:root {
+  --primary: #1a3c6e;
+  --primary-light: #2a5298;
+  --accent: #c8a951;
+  --accent-hover: #b8941e;
+  --white: #ffffff;
+  --light-bg: #f4f7fc;
+  --text-dark: #222;
+  --text-mid: #555;
+  --text-light: #888;
+  --border: #dde3ef;
+  --success: #28a745;
+  --danger: #dc3545;
+  --warning: #ffc107;
+  --shadow: 0 4px 20px rgba(26, 60, 110, 0.12);
+  --radius: 10px;
+  --nav-height: 70px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  color: var(--text-dark);
+  background: #fff;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; }
+
+a { text-decoration: none; color: inherit; }
+
+img { max-width: 100%; display: block; }
+
+/* ---- LAYOUT ---- */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section {
+  padding: 70px 20px;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.section-title h2 {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  color: var(--primary);
+  position: relative;
+  display: inline-block;
+  padding-bottom: 12px;
+}
+
+.section-title h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+.section-title p {
+  color: var(--text-mid);
+  margin-top: 12px;
+  font-size: 1rem;
+}
+
+/* ---- BUTTONS ---- */
+.btn {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  transition: all 0.25s ease;
+  text-align: center;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--white);
+}
+.btn-primary:hover { background: var(--primary-light); transform: translateY(-2px); }
+
+.btn-accent {
+  background: var(--accent);
+  color: var(--white);
+}
+.btn-accent:hover { background: var(--accent-hover); transform: translateY(-2px); }
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+}
+.btn-outline:hover { background: var(--primary); color: white; }
+
+.btn-danger { background: var(--danger); color: white; }
+.btn-danger:hover { background: #b02a37; }
+
+.btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+/* ---- FORMS ---- */
+.form-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 36px;
+  box-shadow: var(--shadow);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-family: 'Open Sans', sans-serif;
+  color: var(--text-dark);
+  background: #fafbfd;
+  transition: border-color 0.2s;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--primary);
+  background: white;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 540px) { .form-row { grid-template-columns: 1fr; } }
+
+/* ---- ALERTS ---- */
+.alert {
+  padding: 14px 18px;
+  border-radius: 6px;
+  margin: 16px 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+.alert-error   { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+.alert-info    { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+
+/* ---- LOADING SPINNER ---- */
+.spinner {
+  display: inline-block;
+  width: 20px; height: 20px;
+  border: 3px solid rgba(255,255,255,0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---- PAGE HERO ---- */
+.page-hero {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: white;
+  text-align: center;
+  padding: 80px 20px 60px;
+  margin-top: var(--nav-height);
+}
+.page-hero h1 {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  margin-bottom: 12px;
+}
+.page-hero p {
+  font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ---- CARDS ---- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: transform 0.25s;
+}
+.card:hover { transform: translateY(-4px); }
+
+.card img { width: 100%; height: 200px; object-fit: cover; }
+
+.card-body { padding: 20px; }
+.card-body h3 { color: var(--primary); margin-bottom: 8px; font-size: 1.05rem; }
+.card-body p { color: var(--text-mid); font-size: 0.92rem; }
+
+/* ---- TABLES ---- */
+.table-wrap { overflow-x: auto; border-radius: var(--radius); box-shadow: var(--shadow); }
+table { width: 100%; border-collapse: collapse; background: white; }
+th {
+  background: var(--primary);
+  color: white;
+  padding: 13px 16px;
+  text-align: left;
+  font-size: 0.88rem;
+  font-family: 'Montserrat', sans-serif;
+  white-space: nowrap;
+}
+td {
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+  color: var(--text-mid);
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--light-bg); }
+
+/* ---- BADGE ---- */
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.badge-success { background: #d4edda; color: #155724; }
+.badge-pending { background: #fff3cd; color: #856404; }
+.badge-danger  { background: #f8d7da; color: #721c24; }
+
+/* ---- SCROLL TO TOP ---- */
+#scroll-top-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 46px; height: 46px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  z-index: 999;
+}
+#scroll-top-btn.visible { opacity: 1; pointer-events: auto; }
+
+/* ---- RESPONSIVE UTILITIES ---- */
+@media (max-width: 768px) {
+  .section { padding: 50px 16px; }
+  .form-card { padding: 24px 16px; }
+}

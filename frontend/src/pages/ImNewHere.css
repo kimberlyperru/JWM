@@ -1,0 +1,82 @@
+.newhere-page { padding-top: var(--nav-height); }
+
+.welcome-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: linear-gradient(135deg, #e8f0fb, #f4f7fc);
+  border-left: 4px solid var(--primary);
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin-bottom: 24px;
+}
+.welcome-banner > i {
+  font-size: 1.8rem;
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.welcome-banner h3 { color: var(--primary); margin-bottom: 4px; font-size: 1rem; }
+.welcome-banner p  { color: var(--text-mid); font-size: 0.88rem; }
+
+.form-section-title {
+  color: var(--primary);
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--border);
+}
+
+.kid-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 16px;
+  background: var(--light-bg);
+  padding: 14px;
+  border-radius: 8px;
+}
+.remove-kid-btn {
+  background: var(--danger);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  width: 36px; height: 36px;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+  align-self: flex-end;
+}
+.add-kid-btn {
+  font-size: 0.88rem;
+  padding: 9px 18px;
+  margin-bottom: 24px;
+  margin-top: 4px;
+}
+.submit-btn { width: 100%; margin-top: 8px; font-size: 1rem; padding: 14px; }
+
+/* Done state */
+.newhere-done {
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 40px 32px;
+}
+.done-icon { font-size: 4rem; color: var(--primary); margin-bottom: 16px; }
+.newhere-done h2 { color: var(--primary); margin-bottom: 12px; }
+.newhere-done p  { color: var(--text-mid); line-height: 1.7; }
+.done-info {
+  background: var(--light-bg);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 20px 0 28px;
+  text-align: left;
+}
+.done-info p { font-size: 0.9rem; color: var(--text-mid); margin-bottom: 6px; }
+.done-info i { color: var(--primary); margin-right: 8px; width: 16px; }
