@@ -91,7 +91,7 @@ function AdminDashboard() {
       {/* Sidebar */}
       <aside className="admin-sidebar">
         <div className="sidebar-header">
-          <img src="/apple-touch-icon.png" alt="JWM" />
+          <img src="/image/favicon.jpg" alt="JWM" />
           <div>
             <h4>JWM Admin</h4>
             <span>Kajiado Branch</span>
