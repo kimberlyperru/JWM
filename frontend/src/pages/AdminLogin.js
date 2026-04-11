@@ -29,7 +29,7 @@ function AdminLogin() {
     <div className="admin-login-page">
       <div className="login-card">
         <div className="login-logo">
-          <img src="/apple-touch-icon.png" alt="JWM Logo" />
+          <img src="/images/apple-touch-icon.png" alt="JWM Logo" />
         </div>
         <h2>Admin Login</h2>
         <p>Jesus Winner Ministry — Kajiado Branch</p>

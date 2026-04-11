@@ -30,7 +30,7 @@ function Navbar() {
       <div className="navbar-inner">
         {/* Logo */}
         <Link to="/" className="nav-logo-wrap">
-          <img src="/apple-touch-icon.png" alt="JWM Logo" className="nav-logo-img" />
+           <img src="/images/apple-touch-icon.png" alt="JWM Logo" className="nav-logo-img" />
           <span className="nav-brand">JWM Kajiado</span>
         </Link>
 
