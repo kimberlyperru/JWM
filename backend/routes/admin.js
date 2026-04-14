@@ -68,4 +68,5 @@ router.delete('/:type/:id', (req, res) => {
   res.json({ success: true, message: 'Record deleted' });
 });
 
+
 module.exports = router;
