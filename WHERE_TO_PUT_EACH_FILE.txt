@@ -1,0 +1,30 @@
+================================================================
+JWM CHURCH WEBSITE - FIX v4
+WHERE TO COPY EACH FILE
+================================================================
+
+BACKEND folder → copy these into your backend/ folder:
+  BACKEND/routes/mpesa.js        → D:\jwm-church\backend\routes\mpesa.js
+  BACKEND/utils/sheetsService.js → D:\jwm-church\backend\utils\sheetsService.js
+  BACKEND/key.json               → D:\jwm-church\backend\key.json
+
+FRONTEND folder → copy these into your frontend/src/ folder:
+  FRONTEND/src/utils/api.js      → D:\jwm-church\frontend\src\utils\api.js
+  FRONTEND/src/pages/Mpesa.js    → D:\jwm-church\frontend\src\pages\Mpesa.js
+  FRONTEND/src/pages/Mpesa.css   → D:\jwm-church\frontend\src\pages\Mpesa.css
+
+================================================================
+AFTER COPYING:
+1. Restart backend:  cd D:\jwm-church\backend && node server.js
+2. Restart frontend: cd D:\jwm-church\frontend && npm start
+3. The DECODER error should be gone (key.json has real newlines)
+4. M-Pesa warmup 404 is gone (now uses /ping which always works)
+================================================================
+
+FOR RENDER DEPLOYMENT:
+1. Push all changes to GitHub
+2. Render backend → Settings → Secret Files:
+   Filename: /etc/secrets/key.json
+   Contents: paste the full contents of BACKEND/key.json
+3. Redeploy both backend and frontend on Render
+================================================================

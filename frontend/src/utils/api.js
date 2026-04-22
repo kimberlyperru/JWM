@@ -1,3 +1,6 @@
+// ============================================================
+// frontend/src/utils/api.js  ← FRONTEND FILE (React/browser)
+// ============================================================
 import axios from 'axios';
 
 function getBaseURL() {
@@ -12,7 +15,7 @@ function getBaseURL() {
 
 const api = axios.create({
   baseURL: getBaseURL(),
-  timeout: 60000, // 60s — covers Render cold start
+  timeout: 60000,
   headers: { 'Content-Type': 'application/json' }
 });
 
@@ -26,9 +29,9 @@ api.interceptors.response.use(
   res => res,
   err => {
     if (err.code === 'ECONNABORTED') {
-      err.userMessage = 'Request timed out. The server is waking up — please wait 30 seconds and try again.';
+      err.userMessage = 'Request timed out. Server is waking up — wait 30s and try again.';
     } else if (!err.response) {
-      err.userMessage = 'Cannot reach the server. Please check your internet connection.';
+      err.userMessage = 'Cannot reach the server. Check your connection.';
     }
     return Promise.reject(err);
   }
@@ -38,7 +41,7 @@ export const getSlots            = (date) => api.get(`/appointments/slots?date=$
 export const bookAppointment     = (data) => api.post('/appointments/book', data);
 export const registerMember      = (data) => api.post('/members/register', data);
 export const submitPledge        = (data) => api.post('/pledges/submit', data);
-export const warmupMpesa         = ()     => api.get('/mpesa/warmup');
+export const pingServer          = ()     => api.get('/mpesa/ping');
 export const initiateMpesa       = (data) => api.post('/mpesa/stkpush', data);
 export const queryPaymentStatus  = (id)   => api.get(`/mpesa/query/${id}`);
 export const checkPaymentStatus  = (id)   => api.get(`/mpesa/status/${id}`);

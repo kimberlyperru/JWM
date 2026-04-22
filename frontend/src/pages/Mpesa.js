@@ -1,5 +1,8 @@
+// ============================================================
+// frontend/src/pages/Mpesa.js  ← FRONTEND FILE (React)
+// ============================================================
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { warmupMpesa, initiateMpesa, queryPaymentStatus } from '../utils/api';
+import { pingServer, initiateMpesa, queryPaymentStatus } from '../utils/api';
 import './Mpesa.css';
 
 const QUICK_AMOUNTS = [100, 200, 500, 1000, 2000, 5000];
@@ -7,34 +10,27 @@ const POLL_INTERVAL = 5000;
 const POLL_TIMEOUT  = 120000;
 
 function Mpesa() {
-  const [form, setForm]           = useState({ phone: '', amount: '' });
-  const [loading, setLoading]     = useState(false);
-  const [warming, setWarming]     = useState(false);
-  const [serverReady, setServerReady] = useState(false);
-  const [message, setMessage]     = useState(null);
-  const [payStatus, setPayStatus] = useState(null);
+  const [form, setForm]             = useState({ phone: '', amount: '' });
+  const [loading, setLoading]       = useState(false);
+  const [serverAlive, setServerAlive] = useState(null);
+  const [message, setMessage]       = useState(null);
+  const [payStatus, setPayStatus]   = useState(null);
   const [checkoutId, setCheckoutId] = useState(null);
-  const [elapsed, setElapsed]     = useState(0);
-  const [mpesaCode, setMpesaCode] = useState('');
-
+  const [elapsed, setElapsed]       = useState(0);
+  const [mpesaCode, setMpesaCode]   = useState('');
+  const [retryCount, setRetryCount] = useState(0);
   const pollRef    = useRef(null);
   const timeoutRef = useRef(null);
   const activeRef  = useRef(false);
 
-  // ── Warm up the server when this page loads ─────────────────
-  useEffect(() => {
-    setWarming(true);
-    warmupMpesa()
-      .then(res => {
-        setServerReady(res.data.ready);
-        setWarming(false);
-      })
-      .catch(() => {
-        // Server still waking — user will be told to wait
-        setWarming(false);
-        setServerReady(false);
-      });
+  const checkServer = useCallback(() => {
+    setServerAlive(null);
+    pingServer()
+      .then(() => setServerAlive(true))
+      .catch(() => setServerAlive(false));
   }, []);
+
+  useEffect(() => { checkServer(); }, [checkServer]);
 
   const stopPolling = useCallback(() => {
     activeRef.current = false;
@@ -45,7 +41,6 @@ function Mpesa() {
   const startPolling = useCallback((id) => {
     activeRef.current = true;
     let secs = 0;
-
     pollRef.current = setInterval(async () => {
       if (!activeRef.current) return;
       secs += POLL_INTERVAL / 1000;
@@ -60,11 +55,10 @@ function Mpesa() {
         } else if (status === 'Cancelled' || status === 'Failed') {
           stopPolling();
           setPayStatus('cancelled');
-          setMessage({ type: 'error', text: 'Payment was cancelled or failed. Please try again.' });
+          setMessage({ type: 'error', text: 'Payment was cancelled. Please try again.' });
         }
-      } catch { /* keep polling on network error */ }
+      } catch { /* keep polling */ }
     }, POLL_INTERVAL);
-
     timeoutRef.current = setTimeout(() => {
       if (activeRef.current) { stopPolling(); setPayStatus('timeout'); }
     }, POLL_TIMEOUT);
@@ -74,20 +68,11 @@ function Mpesa() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!serverReady && !warming) {
-      setMessage({
-        type: 'error',
-        text: 'The payment server is still waking up. Please wait 30 seconds and try again.'
-      });
-      // Try to warm up again
-      setWarming(true);
-      warmupMpesa().then(r => { setServerReady(r.data.ready); setWarming(false); }).catch(() => setWarming(false));
-      return;
-    }
     setLoading(true);
     setMessage(null);
     try {
       const res = await initiateMpesa(form);
+      setServerAlive(true);
       const id  = res.data.checkoutRequestId;
       setCheckoutId(id);
       setElapsed(0);
@@ -96,11 +81,10 @@ function Mpesa() {
     } catch (err) {
       const msg = err.response?.data?.message || err.userMessage || 'Payment failed. Please try again.';
       setMessage({ type: 'error', text: msg });
-      // If it was a timeout, warm up again automatically
-      if (err.code === 'ECONNABORTED' || msg.includes('warming')) {
-        setServerReady(false);
-        setWarming(true);
-        warmupMpesa().then(r => { setServerReady(r.data.ready); setWarming(false); }).catch(() => setWarming(false));
+      if (err.code === 'ECONNABORTED' || msg.includes('timed out') || msg.includes('warming')) {
+        setServerAlive(false);
+        setRetryCount(c => c + 1);
+        checkServer();
       }
     } finally {
       setLoading(false);
@@ -111,10 +95,10 @@ function Mpesa() {
     stopPolling();
     setPayStatus(null); setCheckoutId(null);
     setForm({ phone: '', amount: '' }); setMessage(null);
-    setElapsed(0); setMpesaCode('');
+    setElapsed(0); setMpesaCode(''); setRetryCount(0);
+    checkServer();
   };
 
-  // ─── SUCCESS ───────────────────────────────────────────────
   if (payStatus === 'success') {
     return (
       <div className="mpesa-page">
@@ -148,7 +132,6 @@ function Mpesa() {
     );
   }
 
-  // ─── WAITING / TIMEOUT ─────────────────────────────────────
   if (payStatus === 'waiting' || payStatus === 'timeout') {
     return (
       <div className="mpesa-page">
@@ -165,11 +148,11 @@ function Mpesa() {
             {payStatus === 'waiting' ? (
               <>
                 <h2>Check Your Phone!</h2>
-                <p>Enter your <strong>M-Pesa PIN</strong> to pay <strong>KES {Number(form.amount).toLocaleString()}</strong> from <strong>{form.phone}</strong>.</p>
+                <p>Enter your <strong>M-Pesa PIN</strong> to pay <strong>KES {Number(form.amount).toLocaleString()}</strong>.</p>
                 <div className="waiting-steps">
                   <div className="w-step"><span className="w-num">1</span><span>Open the M-Pesa prompt on your phone</span></div>
                   <div className="w-step"><span className="w-num">2</span><span>Enter your M-Pesa PIN</span></div>
-                  <div className="w-step"><span className="w-num">3</span><span>This page updates automatically once confirmed</span></div>
+                  <div className="w-step"><span className="w-num">3</span><span>This page updates automatically</span></div>
                 </div>
                 <div className="polling-indicator">
                   <span className="spinner" style={{ borderTopColor: 'var(--primary)', borderColor: 'var(--border)', width: 18, height: 18 }}></span>
@@ -181,7 +164,7 @@ function Mpesa() {
                 <h2>Did you complete the payment?</h2>
                 <p>If the money was deducted from your M-Pesa, tap the button below.</p>
                 <div className="alert alert-info" style={{ textAlign: 'left', margin: '16px 0', fontSize: '0.88rem' }}>
-                  <strong>Note (Sandbox/Test mode):</strong> In sandbox mode, Safaricom does not deduct real money and confirmation may be delayed on free hosting. On live mode, this is instant.
+                  <strong>Sandbox mode:</strong> No real money is deducted in sandbox/test mode. On live mode confirmation is automatic and instant.
                 </div>
                 <button className="btn btn-accent" onClick={() => setPayStatus('success')} style={{ marginBottom: 12 }}>
                   <i className="fas fa-check"></i>&nbsp; Yes, I Completed the Payment
@@ -197,32 +180,31 @@ function Mpesa() {
     );
   }
 
-  // ─── MAIN FORM ─────────────────────────────────────────────
   return (
     <div className="mpesa-page">
       <div className="page-hero">
         <h1><i className="fas fa-hand-holding-heart"></i> Give (M-Pesa)</h1>
         <p>Support the ministry through your generous giving</p>
       </div>
-
       <section className="section">
         <div className="mpesa-container">
 
-          {/* Server status banner */}
-          {warming && (
-            <div className="alert alert-info" style={{ marginBottom: 16 }}>
-              <span className="spinner" style={{ borderTopColor: 'var(--primary)', borderColor: 'var(--border)', width: 16, height: 16, marginRight: 8 }}></span>
-              Connecting to payment server...
+          {serverAlive === null && (
+            <div className="server-status checking">
+              <span className="spinner" style={{ borderTopColor: '#0c5460', borderColor: '#bee5eb', width: 14, height: 14 }}></span>
+              &nbsp;Connecting to payment server...
             </div>
           )}
-          {!warming && !serverReady && (
-            <div className="alert alert-error" style={{ marginBottom: 16 }}>
-              ⚠️ Payment server is still waking up. Please wait 30 seconds before submitting.
+          {serverAlive === false && (
+            <div className="server-status offline">
+              <i className="fas fa-exclamation-triangle"></i>
+              &nbsp;Server is waking up. You can still try — it retries automatically.
+              &nbsp;<button className="btn-inline" onClick={checkServer}>Check again</button>
             </div>
           )}
-          {!warming && serverReady && (
-            <div className="alert alert-success" style={{ marginBottom: 16 }}>
-              ✅ Payment server is ready.
+          {serverAlive === true && (
+            <div className="server-status online">
+              <i className="fas fa-check-circle"></i>&nbsp;Payment server is ready.
             </div>
           )}
 
@@ -246,6 +228,11 @@ function Mpesa() {
             </p>
 
             {message && <div className={`alert alert-${message.type}`}>{message.text}</div>}
+            {retryCount > 0 && serverAlive === false && (
+              <div className="alert alert-info" style={{ fontSize: '0.85rem' }}>
+                Server is still waking up. Wait 30 seconds then try again, or use the Paybill option above.
+              </div>
+            )}
 
             <form onSubmit={handleSubmit}>
               <div className="form-group">
@@ -277,15 +264,10 @@ function Mpesa() {
               </div>
 
               <button type="submit" className="btn btn-accent"
-                style={{ width: '100%', padding: '15px', fontSize: '1.05rem' }}
-                disabled={loading || warming}>
-                {loading ? (
-                  <><span className="spinner"></span> Sending prompt...</>
-                ) : warming ? (
-                  <><span className="spinner"></span> Connecting...</>
-                ) : (
-                  <><i className="fas fa-paper-plane"></i> Send M-Pesa Prompt</>
-                )}
+                style={{ width: '100%', padding: '15px', fontSize: '1.05rem' }} disabled={loading}>
+                {loading
+                  ? <><span className="spinner"></span> Sending prompt (may take 30s on first use)...</>
+                  : <><i className="fas fa-paper-plane"></i> Send M-Pesa Prompt</>}
               </button>
             </form>
 

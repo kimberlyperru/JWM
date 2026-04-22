@@ -1,8 +1,4 @@
-// ============================================================
-// generate-key-json.js
-// Run this ONCE to create backend/key.json from your .env
-// Usage: cd backend && node generate-key-json.js
-// ============================================================
+
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
